@@ -13,10 +13,10 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     "buildingStyle": "modern",
     "totalArea": 17000,
     "price": 3000000,
-    "mainImage": "https://unsplash.it/64?image=69",
-    "images": ["https://unsplash.it/900/300",
-               "https://unsplash.it/901/300",
-               "https://unsplash.it/902/300"]
+    "mainImage": "http://placehold.it/64x64",
+    "images": ["http://placehold.it/900x300",
+               "http://placehold.it/900x300",
+               "http://placehold.it/900x300"]
   },
   {
     "projectName": "Polaka 14",
@@ -30,10 +30,10 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     "buildingStyle": "industrial",
     "totalArea": 5000,
     "price": 200000,
-    "mainImage": "https://unsplash.it/64?image=42",
-    "images": ["https://unsplash.it/900/300",
-               "https://unsplash.it/901/300",
-               "https://unsplash.it/902/300"]
+    "mainImage": "http://placehold.it/64x64",
+    "images": ["http://placehold.it/900x300",
+               "http://placehold.it/900x300",
+               "http://placehold.it/900x300"]
   },
   {
     "projectName": "Residential Tower",
@@ -47,10 +47,10 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     "buildingStyle": "deconstructivism",
     "totalArea": 79000,
     "price": 25000,
-    "mainImage": "https://unsplash.it/64?image=420",
-    "images": ["https://unsplash.it/900/300",
-               "https://unsplash.it/901/300",
-               "https://unsplash.it/902/300"]
+    "mainImage": "http://placehold.it/64x64",
+    "images": ["http://placehold.it/900x300",
+               "http://placehold.it/900x300",
+               "http://placehold.it/900x300"]
   },
   {
     "projectName": "Piwna 25/1",
@@ -64,10 +64,10 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     "buildingStyle": "minimalistic",
     "totalArea": 60,
     "price": 2000,
-    "mainImage": "https://unsplash.it/64?image=95",
-    "images": ["https://unsplash.it/900/300",
-               "https://unsplash.it/901/300",
-               "https://unsplash.it/902/300"]
+    "mainImage": "http://placehold.it/64x64",
+    "images": ["http://placehold.it/900x300",
+               "http://placehold.it/900x300",
+               "http://placehold.it/900x300"]
   },
   {
     "projectName": "Politechnika Rzeszowska - V-4",
@@ -81,10 +81,10 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     "buildingStyle": "modern",
     "totalArea": 30000,
     "price": 2500000,
-    "mainImage": "https://unsplash.it/64?image=55",
-    "images": ["https://unsplash.it/900/300",
-               "https://unsplash.it/901/300",
-               "https://unsplash.it/902/300"]
+    "mainImage": "http://placehold.it/64x64",
+    "images": ["http://placehold.it/900x300",
+               "http://placehold.it/900x300",
+               "http://placehold.it/900x300"]
   },
   {
     "projectName": "Grunwaldzka 69",
@@ -98,10 +98,10 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     "buildingStyle": "scandinavian",
     "totalArea": 120,
     "price": 3000,
-    "mainImage": "https://unsplash.it/64?image=12",
-    "images": ["https://unsplash.it/900/300",
-               "https://unsplash.it/901/300",
-               "https://unsplash.it/902/300"]
+    "mainImage": "http://placehold.it/64x64",
+    "images": ["http://placehold.it/900x300",
+               "http://placehold.it/900x300",
+               "http://placehold.it/900x300"]
   },
   {
     "projectName": "Wielka C",
@@ -115,10 +115,10 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     "buildingStyle": "rustic",
     "totalArea": 500,
     "price": 750000,
-    "mainImage": "https://unsplash.it/64?image=96",
-    "images": ["https://unsplash.it/900/300",
-               "https://unsplash.it/901/300",
-               "https://unsplash.it/902/300"]
+    "mainImage": "http://placehold.it/64x64",
+    "images": ["http://placehold.it/900x300",
+               "http://placehold.it/900x300",
+               "http://placehold.it/900x300"]
   },
   {
     "projectName": "Burj Khalifa",
@@ -132,10 +132,10 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     "buildingStyle": "modern",
     "totalArea": 309473,
     "price": 9000000000,
-    "mainImage": "https://unsplash.it/64?image=74",
-    "images": ["https://unsplash.it/900/300",
-               "https://unsplash.it/901/300",
-               "https://unsplash.it/902/300"]
+    "mainImage": "http://placehold.it/64x64",
+    "images": ["http://placehold.it/900x300",
+               "http://placehold.it/900x300",
+               "http://placehold.it/900x300"]
   }];
 
   $scope.openModal = function(project) {
@@ -179,6 +179,7 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     for (var i = 0; i < a.length; i++) {
       if (errors > 0) {
         return b.includes(a.substring(i));
+        // return b.substring(i).startsWith(a.substring(i));
       }
       if (a[i] != b[i]) {
         errors++;
@@ -190,7 +191,7 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
   $scope.search = function(row) {
     if (typeof $scope.query == "undefined" || $scope.query.length == 0)
       return true;
-    var query = $scope.query.trim().replace(/\s+/g, " ").replace(/,/g, '').split(" ");
+    var query = $scope.query.trim().replace(/,/g, " ").replace(/\s+/g, " ").split(" ");
     var contains_query = query.map(function() {return false;} )
     for (var i=0; i < query.length; i++) {
       query[i] = query[i].trim();
