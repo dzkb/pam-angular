@@ -178,8 +178,8 @@ angular.module('ngApp', ['ngAnimate', 'ui.bootstrap']).controller('MainCtrl', fu
     var errors = 0;
     for (var i = 0; i < a.length; i++) {
       if (errors > 0) {
-        return b.includes(a.substring(i));
-        // return b.substring(i).startsWith(a.substring(i));
+        // return b.includes(a.substring(i));
+        return b.substring(i).startsWith(a.substring(i));
       }
       if (a[i] != b[i]) {
         errors++;
