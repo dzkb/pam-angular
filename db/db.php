@@ -26,6 +26,7 @@ class ProjectDatabase {
             $query = $query."$key=$value";
         }
         $query = $query.'WHERE id='.$id;
+        var_dump($query);
     }
 
     public function delete($id) {

@@ -45,7 +45,9 @@ foreach($sel as $v) {
     $result[] = $v;
 }
 
-print(json_encode($result));
+// print(json_encode($result));
+
+$db->update(1, ['projectName' => 'Green3Day']);
 
 // var_dump($db->create($project));
 ?>
