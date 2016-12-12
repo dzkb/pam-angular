@@ -1,4 +1,25 @@
 <?php
+/*
+    RESTful API v1
+
+    Usage:
+    GET /projects
+        - retrieves every project data,
+          returns JSON array with projects
+    GET /projects/<id>
+        - retrieves single project data,
+          returns JSON object
+    POST /projects
+        - creates a project from POST data
+    PUT /projects/<id>
+        - modifies project with given id,
+          uses data from request body
+    DELETE /projects/<id>
+        - deletes project with given id
+
+
+*/
+
 require_once('db.php');
 $db = new ProjectDatabase();
 
@@ -7,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($db->affected_count > 0) {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
-        print(json_encode(['error' => 'COULD_NOT_INSERT_DATA',
+        print(json_encode(['error' => 'could not insert data',
                            'mysqli_error' => $db->error]));
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
@@ -16,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($db->affected_count > 0) {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
-        print(json_encode(['error' => 'COULD_NOT_UPDATE_DATA',
+        print(json_encode(['error' => 'could not update data',
                            'mysqli_error' => $db->error]));
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -29,14 +50,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (count($result) > 0) {
             print(json_encode($result));
         } else {
-            print(json_encode(['error' => 'NO_DATA_RETURNED']));
+            print(json_encode(['error' => 'no data returned']));
         }
     }else{
         $project = $db->select(['id' => $_GET['id']])->fetch_assoc();
         if ($project) {
             print(json_encode($project));
         } else {
-            print(json_encode(['error' => 'NO_DATA_RETURNED']));
+            print(json_encode(['error' => 'no data returned']));
         }
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
@@ -46,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($db->affected_count > 0) {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
-        print(json_encode(['error' => 'COULD_NOT_DELETE_DATA',
+        print(json_encode(['error' => 'could not delete data',
                            'mysqli_error' => $db->error]));
     }
 }
