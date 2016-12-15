@@ -40,7 +40,7 @@ class ProjectDatabase {
             $query = $query.($iterator->key()).'='.($iterator->current());
             $iterator->next();
             while($iterator->valid()) {
-                $query = $query.' AND '.($iterator->key()).'='($iterator->current());
+                $query = $query.' AND '.($iterator->key()).'='.($iterator->current());
                 $iterator->next();
             }
         }

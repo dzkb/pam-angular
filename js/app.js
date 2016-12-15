@@ -1,4 +1,4 @@
-var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap']).config(function($routeProvider) {
+var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'restangular']).config(function($routeProvider) {
         $routeProvider
 
             // route for the home page
@@ -20,145 +20,11 @@ var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap']).co
             });
     });
 
-ngApp.controller('MainCtrl', function($scope, $uibModal) {
+ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
   'use strict';
 
-  $scope.projects = [{
-    "projectName": "Green2Day",
-    "keywords": "office green day",
-    "completionYear": 2017,
-    "location": "Wrocław",
-    "projectType": "implementation",
-    "contractor": "Skanska",
-    "architect": "Maćków Pracownia Projektowa Sp. Z O.O",
-    "buildingType": "office",
-    "buildingStyle": "modern",
-    "totalArea": 17000,
-    "price": 3000000,
-    "mainImage": "http://placehold.it/64x64",
-    "images": ["http://placehold.it/900x300",
-               "http://placehold.it/900x300",
-               "http://placehold.it/900x300"]
-  },
-  {
-    "projectName": "Polaka 14",
-    "keywords": "loft",
-    "completionYear": 2015,
-    "location": "Wrocław",
-    "projectType": "project",
-    "contractor": "Toscom",
-    "architect": "Janusz Ratajczak",
-    "buildingType": "mdu",
-    "buildingStyle": "industrial",
-    "totalArea": 5000,
-    "price": 200000,
-    "mainImage": "http://placehold.it/64x64",
-    "images": ["http://placehold.it/900x300",
-               "http://placehold.it/900x300",
-               "http://placehold.it/900x300"]
-  },
-  {
-    "projectName": "Residential Tower",
-    "keywords": "złota 44",
-    "completionYear": 2015,
-    "location": "Warszawa",
-    "projectType": "visualization",
-    "contractor": "BBI Development NFI, Amstar",
-    "architect": "Zdzisław Spławski",
-    "buildingType": "house",
-    "buildingStyle": "deconstructivism",
-    "totalArea": 79000,
-    "price": 25000,
-    "mainImage": "http://placehold.it/64x64",
-    "images": ["http://placehold.it/900x300",
-               "http://placehold.it/900x300",
-               "http://placehold.it/900x300"]
-  },
-  {
-    "projectName": "Piwna 25/1",
-    "keywords": "beer",
-    "completionYear": 2020,
-    "location": "Wrocław",
-    "projectType": "project",
-    "contractor": "Urząd Miasta Wrocław",
-    "architect": "Donat Orski",
-    "buildingType": "flat",
-    "buildingStyle": "minimalistic",
-    "totalArea": 60,
-    "price": 2000,
-    "mainImage": "http://placehold.it/64x64",
-    "images": ["http://placehold.it/900x300",
-               "http://placehold.it/900x300",
-               "http://placehold.it/900x300"]
-  },
-  {
-    "projectName": "Politechnika Rzeszowska - V-4",
-    "keywords": "university",
-    "completionYear": 2018,
-    "location": "Rzeszów",
-    "projectType": "implementation",
-    "contractor": "Politechnika Rzeszowska",
-    "architect": "Mariusz Fraś",
-    "buildingType": "mdu",
-    "buildingStyle": "modern",
-    "totalArea": 30000,
-    "price": 2500000,
-    "mainImage": "http://placehold.it/64x64",
-    "images": ["http://placehold.it/900x300",
-               "http://placehold.it/900x300",
-               "http://placehold.it/900x300"]
-  },
-  {
-    "projectName": "Grunwaldzka 69",
-    "keywords": "city centre",
-    "completionYear": 2016,
-    "location": "Gdańsk",
-    "projectType": "project",
-    "contractor": "Jan Kowalski",
-    "architect": "Hanna Mazur",
-    "buildingType": "house",
-    "buildingStyle": "scandinavian",
-    "totalArea": 120,
-    "price": 3000,
-    "mainImage": "http://placehold.it/64x64",
-    "images": ["http://placehold.it/900x300",
-               "http://placehold.it/900x300",
-               "http://placehold.it/900x300"]
-  },
-  {
-    "projectName": "Wielka C",
-    "keywords": "obscene communism",
-    "completionYear": 1974,
-    "location": "Rzeszów",
-    "projectType": "implementation",
-    "contractor": "PZPR",
-    "architect": "Władysław Kruczek",
-    "buildingType": "mdu",
-    "buildingStyle": "rustic",
-    "totalArea": 500,
-    "price": 750000,
-    "mainImage": "http://placehold.it/64x64",
-    "images": ["http://placehold.it/900x300",
-               "http://placehold.it/900x300",
-               "http://placehold.it/900x300"]
-  },
-  {
-    "projectName": "Burj Khalifa",
-    "keywords": "skyscraper",
-    "completionYear": 2009,
-    "location": "Dubai",
-    "projectType": "implementation",
-    "contractor": "Samsung Constructions, BESIX, Arabtec",
-    "architect": "Adrian Smith",
-    "buildingType": "mdu",
-    "buildingStyle": "modern",
-    "totalArea": 309473,
-    "price": 9000000000,
-    "mainImage": "http://placehold.it/64x64",
-    "images": ["http://placehold.it/900x300",
-               "http://placehold.it/900x300",
-               "http://placehold.it/900x300"]
-  }];
+ $scope.projects =Restangular.oneUrl('projects', 'http://localhost/my-site/db/project.php').get();
+ console.log($scope.projects);
 
   $scope.openModal = function(project) {
     var modalInstance = $uibModal.open({
@@ -239,10 +105,10 @@ ngApp.controller('MainCtrl', function($scope, $uibModal) {
 
 }); 
 
-ngApp.controller('aboutController', function($scope) {
+ngApp.controller('editController', function($scope) {
         $scope.message = 'Look! I am an about page.';
     });
 
-ngApp.controller('contactController', function($scope) {
+ngApp.controller('addController', function($scope) {
         $scope.message = 'Look! I am an about page.';
     });

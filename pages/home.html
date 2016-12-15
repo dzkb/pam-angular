@@ -4,7 +4,7 @@
     <div class="row">
         <ul class="list-group" ng-repeat="project in projects | filter: search ">
             <li class="list-group-item">
-                <a href="#" ng-click="openModal(project);" ><img ng-src="{{project.mainImage}}"/> {{project.projectName}}, {{project.totalArea}}m<sup>2</sup>, {{project.completionYear}}r., {{project.location}}</a>
+                <a href="#/" ng-click="openModal(project);" ><img ng-src="{{project.mainImage}}"/> {{project.projectName}}, {{project.totalArea}}m<sup>2</sup>, {{project.completionYear}}r., {{project.location}}</a>
             </li>
         </ul>
     </div>
