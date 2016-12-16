@@ -1,11 +1,19 @@
 
 <div class="jumbotron">
-    <h2>Search results</h2>
-    <div class="row">
-        <ul class="list-group" ng-repeat="project in projects | filter: search ">
-            <li class="list-group-item">
-                <a href="#/" ng-click="openModal(project);" ><img ng-src="{{project.mainImage}}"/> {{project.projectName}}, {{project.totalArea}}m<sup>2</sup>, {{project.completionYear}}r., {{project.location}}</a>
-            </li>
-        </ul>
-    </div>
+	<h2>Search results</h2>
+	<div class="row">
+	
+		<ul class="list-group" ng-repeat="project in projects | filter: search ">
+			<li class="list-group-item">
+				<a href="#/" ng-show="!editMode" ng-click="openModal(project);" ><img ng-src="{{project.mainImage}}"/> {{project.projectName}}, {{project.totalArea}}m<sup>2</sup>, {{project.completionYear}}r., {{project.location}}</a>
+
+				<span ng-show="editMode">
+					<input ng-model="keyword.name" placeholder="{{project.projectName}}">
+					<input ng-model="keyword.totalArea" placeholder="{{project.totalArea}}">
+					<button ng-click=" save(keyword) ; editMode = false">Save</button>
+				</span>
+				<span ng-show="!editMode" ng-click="editMode = true" class="glyphicon glyphicon-pencil edit-icon"></span>
+			</li>
+		</ul>
+	</div>
 </div>

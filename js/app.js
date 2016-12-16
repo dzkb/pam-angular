@@ -1,31 +1,33 @@
 var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'restangular']).config(function($routeProvider) {
-        $routeProvider
+  $routeProvider
 
             // route for the home page
             .when('/', {
-                templateUrl : './pages/home.html',
-                controller  : 'MainCtrl'
+              templateUrl : './pages/home.html',
+              controller  : 'MainCtrl'
             })
 
             // route for the about page
-            .when('/about', {
-                templateUrl : './pages/about.html',
-                controller  : 'aboutController'
+            .when('/add', {
+              templateUrl : './pages/add.html',
+              controller  : 'addController'
             })
 
             // route for the contact page
             .when('/contact', {
-                templateUrl : './pages/contact.html',
-                controller  : 'contactController'
+              templateUrl : './pages/contact.html',
+              controller  : 'contactController'
             });
-    });
+          });
 
 ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
   'use strict';
 
- $scope.projects =Restangular.oneUrl('projects', 'http://localhost/my-site/db/project.php').get();
- console.log($scope.projects);
-
+  var rest =Restangular.oneUrl('projects', 'http://localhost/my-site/db');
+  rest.getList('projects').then(function(project) {
+    $scope.projects = project.plain();
+  });
+  console.log($scope.projects);
   $scope.openModal = function(project) {
     var modalInstance = $uibModal.open({
       ariaLabelledBy: 'modal-title',
@@ -77,6 +79,7 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
   }
 
   $scope.search = function(row) {
+
     if (typeof $scope.query == "undefined" || $scope.query.length == 0)
       return true;
     var query = $scope.query.trim().replace(/,/g, " ").replace(/\s+/g, " ").split(" ");
@@ -90,8 +93,9 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
           contains_query[i] = true;
         }
       }
+      console.log(row);
 
-      for (var k in row) { // property check
+      for (var k in row.plain()) { // property check
         if (k != "keywords" && k != "mainImage" && k != "images") {
           if (approxMatching(query[i], row[k].toString())) {
             contains_query[i] = true;
@@ -103,12 +107,31 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
     return contains_query.reduce(function(acc, v) { return (acc && v); });
   }
 
+  //$scope.editMode = false;
+
 }); 
 
-ngApp.controller('editController', function($scope) {
-        $scope.message = 'Look! I am an about page.';
-    });
+ngApp.controller('addController', function($scope, Restangular) {
+  $scope.message = 'Look! I am an add page.';
+  $scope.save = function(keywords) {
+    console.log(keywords);
 
-ngApp.controller('addController', function($scope) {
-        $scope.message = 'Look! I am an about page.';
-    });
+    var test = {
+      "id":"2",
+      "projectName":"Green2Day",
+      "keywords":"office green day",
+      "completionYear":"2017",
+      "location":"Wroc\u0142aw",
+      "projectType":"implementation",
+      "contractor":"Skanska",
+      "architect":"Ma\u0107k\u00f3w Pracownia Projektowa Sp. Z O.O",
+      "buildingType":"office",
+      "buildingStyle":"modern",
+      "totalArea":"17000","price":"3000000",
+      "mainImage":"http:\/\/placehold.it\/64x64",
+      "images":"[\"http:\/\/placehold.it\/900x300\",\"http:\/\/placehold.it\/900x300\",\"http:\/\/placehold.it\/900x300\"]"
+    }
+    var rest =Restangular.all('/my-site/db/projects');
+    rest.post(test);
+  }
+});

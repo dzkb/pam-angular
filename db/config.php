@@ -25,4 +25,4 @@ define('type_schema', array(
     'mainImage'         => 'str',
     'images'            => 'str'
     ));
-?>
+    ?>
