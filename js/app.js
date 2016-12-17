@@ -23,7 +23,7 @@ var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 're
 ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
   'use strict';
 
-  var rest =Restangular.oneUrl('projects', 'http://localhost/my-site/db');
+  var rest =Restangular.oneUrl('projects', 'db');
   rest.getList('projects').then(function(project) {
     $scope.projects = project.plain();
   });
@@ -131,7 +131,7 @@ ngApp.controller('addController', function($scope, Restangular) {
       "mainImage":"http:\/\/placehold.it\/64x64",
       "images":"[\"http:\/\/placehold.it\/900x300\",\"http:\/\/placehold.it\/900x300\",\"http:\/\/placehold.it\/900x300\"]"
     }
-    var rest =Restangular.all('/my-site/db/projects');
+    var rest =Restangular.all('pam-angular/db/projects');
     rest.post(test);
   }
 });

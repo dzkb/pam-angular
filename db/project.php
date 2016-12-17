@@ -24,7 +24,9 @@ require_once('db.php');
 $db = new ProjectDatabase();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $db->create($_REQUEST);
+    // json_decode has to return assoc array instead of object
+    $input_data = json_decode(file_get_contents("php://input"), true);
+    $db->create($input_data);
     if ($db->affected_count > 0) {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
