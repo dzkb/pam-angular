@@ -1,8 +1,8 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteRule add index.html
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule db/projects/(.*)$ db/project.php?id=$1 
 RewriteRule db/projects db/project.php  
+RewriteRule ^add$ index.html # match EXACTLY add
 </IfModule>
