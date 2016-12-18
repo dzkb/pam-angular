@@ -129,6 +129,7 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
         }
       }
       toDelete.remove().then(function(result) {
+        toastr["success"]("Project removed!");
         refreshList();
       });
       
@@ -156,6 +157,7 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
       toPut.price = project.price;
       toPut.images = project.images;
       toPut.put();
+      toastr["success"]("Project saved!");
   });
   }
 
@@ -181,7 +183,7 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
     }
     var rest =Restangular.all('pam-angular/db/projects');
     rest.post(result);
-    toastr["success"]("Dodano projekt!");
+    toastr["success"]("Project added!");
   }
   $scope.keywords = ["add keyword"];
   $scope.addKeyword = function() {
