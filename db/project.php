@@ -41,9 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($db->affected_count > 0) {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
-        http_response_code(HTTP_BAD_REQUEST);
-        print(json_encode(['error' => 'could not update data',
-                           'driver_error' => $db->error]));
+        if ($db->error) {
+            http_response_code(HTTP_BAD_REQUEST);
+            print(json_encode(['error' => 'could not update data',
+                               'driver_error' => $db->error]));
+        }else{
+            print(json_encode(['error' => 'SUCCESS/NOT_CHANGED']));
+        }
+
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (!array_key_exists('id', $_GET)) {

@@ -1,4 +1,4 @@
-var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'restangular']).config(function($routeProvider) {
+var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'restangular']).config(function($routeProvider, $locationProvider) {
   $routeProvider
 
             // route for the home page
@@ -17,7 +17,11 @@ var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 're
             .when('/contact', {
               templateUrl : './pages/contact.html',
               controller  : 'contactController'
-            });
+            }
+
+            
+            );
+           $locationProvider.html5Mode(true);
           });
 
 ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
@@ -28,6 +32,10 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
   var refreshList = function(){
     rest.getList('projects').then(function(project) {
     $scope.projects = project.plain();
+    for (var i = 0; i < $scope.projects.length; i++) {
+      $scope.projects[i].images = JSON.parse($scope.projects[i].images);
+      // ^ get images
+    }
     }, function (result) {
       console.log(result);
     });
@@ -40,7 +48,6 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
       ariaDescribedBy: 'modal-body',
       templateUrl: 'myModalContent.html',
       controller: function($scope) {
-        project.images = JSON.parse(project.images);
         $scope.project = project;
         $scope.close = $scope.$close;
         $scope.saneProject = {
@@ -147,6 +154,7 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
       toPut.buildingStyle = project.buildingStyle;
       toPut.totalArea = project.totalArea;
       toPut.price = project.price;
+      toPut.images = project.images;
       toPut.put();
   });
   }

@@ -45,7 +45,7 @@ class ProjectDatabase {
         }
         $query = $query.' WHERE id='.$id;
         if (print_queries)
-            var_dump($query);
+            var_dump($query);  
         $result = $connection->query($query);
         $this->affected_count = $connection->affected_rows;
         $this->error = $connection->error;
@@ -92,7 +92,7 @@ class ProjectDatabase {
                 if (type_schema[$iterator->key()] == 'str') {
                     $array[$iterator->key()] = "'".$iterator->current()."'";
                 }elseif (type_schema[$iterator->key()] == 'json') {
-                    $array[$iterator->key()] = "'".json_encode($iterator->current())."'";
+                    $array[$iterator->key()] = "'".trim(json_encode($iterator->current()), '"')."'";
                 }
             }
             $iterator->next();

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="ngApp">
 <head lang="en">
+    <base href="/pam-angular/">
     <meta charset="utf-8">
     <title>Project search engine</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -50,17 +51,19 @@
 </div>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Project search engine</a>
+        <div class="navbar-header col-xs-3">
+            <a class="navbar-brand" href="/pam-angular">Project search engine</a>
         </div>
-        <div class="nav navbar-nav col-sm-9 pull-right">
+        <div class="nav navbar-nav col-xs-7">
             <input class="form-control input-lg " type="text" placeholder="Enter project properties" ng-model="query">
         </div>
+        <ul class="nav navbar-nav navbar-right col-xs-2">
+            <li><a href="/pam-angular"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="add"><i class="fa fa-shield"></i>Add project</a></li>
+        </ul>
+        
     </div>
-    <ul class="nav navbar-nav navbar-right">
-        <li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#/add"><i class="fa fa-shield"></i>Add project</a></li>
-    </ul>
+
 </nav>
 <div id="main">
 
