@@ -27,7 +27,7 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
   rest.getList('projects').then(function(project) {
     $scope.projects = project.plain();
   });
-  console.log($scope.projects);
+
   $scope.openModal = function(project) {
     var modalInstance = $uibModal.open({
       ariaLabelledBy: 'modal-title',
@@ -108,8 +108,12 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
     return contains_query.reduce(function(acc, v) { return (acc && v); });
   }
 
-  //$scope.editMode = false;
-
+  $scope.delete = function (project) {
+    rest.getList('projects').then(function(elem) {
+       var toDelete = elem[project.id - 1];
+       toDelete.remove();
+  });
+  }
 }); 
 
 ngApp.controller('addController', function($scope, Restangular) {
