@@ -2,19 +2,89 @@
 	<h1>Add Page</h1>
 	
 	<p>{{ message }}</p>
-	<input ng-model="keyword.architect" placeholder="">
-	<input ng-model="keyword.buildingStyle" placeholder="buildingStyle">
-	<input ng-model="keyword.buildingType" placeholder="buildingType">
-	<input ng-model="keyword.completionYear" placeholder="completionYear">
-	<input ng-model="keyword.contractor" placeholder="contractor">
-	<input ng-model="keyword.images" placeholder="images">
-	<input ng-model="keyword.totalArea" placeholder="totalArea">
-	<input ng-model="keyword.keywords" placeholder="keywords">
-	<input ng-model="keyword.location" placeholder="location">
-	<input ng-model="keyword.mainImage" placeholder="mainImage">
-	<input ng-model="keyword.price" placeholder="price">
-	<input ng-model="keyword.projectName" placeholder="projectName">
-	<input ng-model="keyword.projectType" placeholder="projectType">
-	<button ng-click=" save(keyword)">Save</button>
 
+	<form>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.architect" placeholder="architect" required>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.buildingStyle" placeholder="buildingStyle">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.buildingType" placeholder="buildingType">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.completionYear" placeholder="completionYear">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.contractor" placeholder="contractor">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.totalArea" placeholder="totalArea">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.location" placeholder="location">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.mainImage" placeholder="mainImage">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.price" placeholder="price">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.projectName" placeholder="projectName">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<input class="form-control" ng-model="data.projectType" placeholder="projectType">
+				</div>
+			</div>
+			<div ng-repeat="key in keywords track by $index">
+				<div class="row">
+					<div class="col-xs-12">
+						<input class="form-control" once="addKeyword()" placeholder= "{{key}}" ng-model="keywords[$index]"/>
+					</div>
+				</div>
+			</div>
+			<div ng-repeat="image in images track by $index">
+				<div class="row">
+					<div class="col-xs-12">
+						<input class="form-control" once="addImage()" placeholder= "{{image}}" ng-model="images[$index]"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<input ng-click=" save(data)" type="submit">
+	</form>
 </div>

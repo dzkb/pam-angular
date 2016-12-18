@@ -113,25 +113,53 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
 
 ngApp.controller('addController', function($scope, Restangular) {
   $scope.message = 'Look! I am an add page.';
-  $scope.save = function(keywords) {
-    console.log(keywords);
+  $scope.save = function(data) {
 
-    var test = {
-      "id":"2",
-      "projectName":"Green2Day",
-      "keywords":"office green day",
-      "completionYear":"2017",
-      "location":"Wroc\u0142aw",
-      "projectType":"implementation",
-      "contractor":"Skanska",
-      "architect":"Ma\u0107k\u00f3w Pracownia Projektowa Sp. Z O.O",
-      "buildingType":"office",
-      "buildingStyle":"modern",
-      "totalArea":"17000","price":"3000000",
-      "mainImage":"http:\/\/placehold.it\/64x64",
-      "images":"[\"http:\/\/placehold.it\/900x300\",\"http:\/\/placehold.it\/900x300\",\"http:\/\/placehold.it\/900x300\"]"
+    var result = {
+      "id":"1",
+      "projectName": data.projectName,
+      "keywords": $scope.keywords.slice(1, $scope.keywords.length-1).toString().replaceAll(","," "),
+      "completionYear": data.completionYear,
+      "location": data.location,
+      "projectType": data.projectType,
+      "contractor": data.contractor,
+      "architect": data.architect,
+      "buildingType": data.buildingType,
+      "buildingStyle": data.buildingStyle,
+      "totalArea": data.totalArea,
+      "price": data.price,
+      "mainImage": data.mainImage,
+      "images": $scope.images.slice(1, $scope.images.length)
     }
     var rest =Restangular.all('pam-angular/db/projects');
-    rest.post(test);
+    rest.post(result);
+    console.log(result);
+  }
+  $scope.keywords = ["add keyword"];
+  $scope.addKeyword = function() {
+    $scope.keywords.push("add keyword");
+  }
+  $scope.images = ["add image"];
+  $scope.addImage = function() {
+    $scope.images.push("add image");
   }
 });
+
+ngApp.directive('once', function() {
+  return {
+    require: 'ngModel',
+    scope: {
+      fn: '&once'
+    },
+    link: function($scope, $element, $attrs, ngModel) {
+      // add a listener and save the index for removal
+      var idx = ngModel.$viewChangeListeners.push(function() {
+        // user typed, run the function
+        $scope.fn();
+        // remove the listener
+        ngModel.$viewChangeListeners.splice(idx, 1);
+      }) - 1;
+    }
+  };
+})
+;
