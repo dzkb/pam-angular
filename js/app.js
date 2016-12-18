@@ -34,6 +34,7 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
       ariaDescribedBy: 'modal-body',
       templateUrl: 'myModalContent.html',
       controller: function($scope) {
+        project.images = JSON.parse(project.images);
         $scope.project = project;
         $scope.close = $scope.$close;
         $scope.saneProject = {
@@ -116,9 +117,8 @@ ngApp.controller('addController', function($scope, Restangular) {
   $scope.save = function(data) {
 
     var result = {
-      "id":"1",
       "projectName": data.projectName,
-      "keywords": $scope.keywords.slice(1, $scope.keywords.length-1).toString().replaceAll(","," "),
+      "keywords": $scope.keywords.slice(0, $scope.keywords.length-1).join(" "),
       "completionYear": data.completionYear,
       "location": data.location,
       "projectType": data.projectType,
@@ -129,7 +129,7 @@ ngApp.controller('addController', function($scope, Restangular) {
       "totalArea": data.totalArea,
       "price": data.price,
       "mainImage": data.mainImage,
-      "images": $scope.images.slice(1, $scope.images.length)
+      "images": $scope.images.slice(0, $scope.images.length-1)
     }
     var rest =Restangular.all('pam-angular/db/projects');
     rest.post(result);

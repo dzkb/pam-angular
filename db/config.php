@@ -23,6 +23,6 @@ define('type_schema', array(
     'totalArea'         => 'int',
     'price'             => 'int',
     'mainImage'         => 'str',
-    'images'            => 'str'
+    'images'            => 'json'
     ));
     ?>

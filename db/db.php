@@ -91,6 +91,8 @@ class ProjectDatabase {
             if (key_exists($iterator->key(), type_schema)) {
                 if (type_schema[$iterator->key()] == 'str') {
                     $array[$iterator->key()] = "'".$iterator->current()."'";
+                }elseif (type_schema[$iterator->key()] == 'json') {
+                    $array[$iterator->key()] = "'".json_encode($iterator->current())."'";
                 }
             }
             $iterator->next();
