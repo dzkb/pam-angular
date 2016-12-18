@@ -154,7 +154,6 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
 }); 
 
 ngApp.controller('addController', function($scope, Restangular, $route) {
-  $scope.message = 'Look! I am an add page.';
   $scope.save = function(data) {
 
     var result = {

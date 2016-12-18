@@ -28,8 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $input_data = json_decode(file_get_contents("php://input"), true);
     $db->create($input_data);
     if ($db->affected_count > 0) {
+        http_response_code(HTTP_CREATED);
         print(json_encode(['error' => 'SUCCESS']));
     }else{
+        http_response_code(HTTP_BAD_REQUEST);
         print(json_encode(['error' => 'could not insert data',
                            'driver_error' => $db->error]));
     }
@@ -39,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($db->affected_count > 0) {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
+        http_response_code(HTTP_BAD_REQUEST);
         print(json_encode(['error' => 'could not update data',
                            'driver_error' => $db->error]));
     }
@@ -53,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             print(json_encode($result));
         } else {
             // print(json_encode(['error' => 'no data returned']));
+            http_response_code(HTTP_NO_CONTENT);
             print(json_encode([]));
         }
     }else{
@@ -60,7 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($project) {
             print(json_encode($project));
         } else {
-            print(json_encode(['error' => 'no data returned']));
+            // print(json_encode(['error' => 'no data returned']));
+            http_response_code(HTTP_NO_CONTENT);
+            print(json_encode([]));
         }
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
@@ -70,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($db->affected_count > 0) {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
+        http_response_code(HTTP_BAD_REQUEST);
         print(json_encode(['error' => 'could not delete data',
                            'driver_error' => $db->error]));
     }
