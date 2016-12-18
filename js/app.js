@@ -110,8 +110,13 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
 
   $scope.delete = function (project) {
     rest.getList('projects').then(function(elem) {
-       var toDelete = elem[project.id - 1];
-       toDelete.remove();
+      var toDelete = null;
+      for (var i = 0; i < elem.length && toDelete == null; i++) {
+        if (elem[i].id == project.id) {
+          toDelete = elem[i];
+        }
+      }
+      toDelete.remove();
   });
   }
 }); 
