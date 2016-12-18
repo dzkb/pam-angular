@@ -8,9 +8,9 @@
 				<a href="#/" ng-show="!editMode" ng-click="openModal(project);" ><img ng-src="{{project.mainImage}}"/> {{project.projectName}}, {{project.totalArea}}m<sup>2</sup>, {{project.completionYear}}r., {{project.location}}</a>
 
 				<span ng-show="editMode">
-					<input ng-model="keyword.name" placeholder="{{project.projectName}}">
-					<input ng-model="keyword.totalArea" placeholder="{{project.totalArea}}">
-					<button ng-click=" save(keyword) ; editMode = false">Save</button>
+					<input ng-model="project.projectName" placeholder="{{project.projectName}}">
+					<input ng-model="project.totalArea" placeholder="{{project.totalArea}}">
+					<button ng-click="editMode = false; save(project)">Save</button>
 				</span>
 				<span ng-show="!editMode" ng-click="editMode = true" class="glyphicon glyphicon-pencil edit-icon"></span>
 				<span ng-show="!editMode" ng-click="delete(project)" class="glyphicon glyphicon-trash edit-icon"></span>

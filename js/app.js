@@ -20,13 +20,19 @@ var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 're
             });
           });
 
-ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
+ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
   'use strict';
 
-  var rest =Restangular.oneUrl('projects', 'db');
-  rest.getList('projects').then(function(project) {
+  var rest = Restangular.oneUrl('projects', 'db');
+
+  var refreshList = function(){
+    rest.getList('projects').then(function(project) {
     $scope.projects = project.plain();
-  });
+    }, function (result) {
+      console.log(result);
+    });
+  }
+  refreshList();
 
   $scope.openModal = function(project) {
     var modalInstance = $uibModal.open({
@@ -94,9 +100,8 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
           contains_query[i] = true;
         }
       }
-      console.log(row);
 
-      for (var k in row.plain()) { // property check
+      for (var k in row) { // property check
         if (k != "keywords" && k != "mainImage" && k != "images") {
           if (approxMatching(query[i], row[k].toString())) {
             contains_query[i] = true;
@@ -116,12 +121,39 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular) {
           toDelete = elem[i];
         }
       }
-      toDelete.remove();
+      toDelete.remove().then(function(result) {
+        refreshList();
+      });
+      
   });
   }
+
+  $scope.save = function (project) {
+    rest.getList('projects').then(function(elem) {
+      var toPut = null;
+      for (var i = 0; i < elem.length && toPut == null; i++) {
+        if (elem[i].id == project.id) {
+          toPut = elem[i];
+        }
+      }
+      toPut.projectName = project.projectName;
+      toPut.keywords = project.keywords;
+      toPut.completionYear = project.completionYear;
+      toPut.location = project.location;
+      toPut.projectType = project.projectType;
+      toPut.contractor = project.contractor;
+      toPut.architect = project.architect;
+      toPut.buildingType = project.buildingType;
+      toPut.buildingStyle = project.buildingStyle;
+      toPut.totalArea = project.totalArea;
+      toPut.price = project.price;
+      toPut.put();
+  });
+  }
+
 }); 
 
-ngApp.controller('addController', function($scope, Restangular) {
+ngApp.controller('addController', function($scope, Restangular, $route) {
   $scope.message = 'Look! I am an add page.';
   $scope.save = function(data) {
 
@@ -142,7 +174,7 @@ ngApp.controller('addController', function($scope, Restangular) {
     }
     var rest =Restangular.all('pam-angular/db/projects');
     rest.post(result);
-    console.log(result);
+    toastr["success"]("Dodano projekt!");
   }
   $scope.keywords = ["add keyword"];
   $scope.addKeyword = function() {
@@ -172,3 +204,21 @@ ngApp.directive('once', function() {
   };
 })
 ;
+
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}

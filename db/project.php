@@ -31,16 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
         print(json_encode(['error' => 'could not insert data',
-                           'mysqli_error' => $db->error]));
+                           'driver_error' => $db->error]));
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-    parse_str(file_get_contents("php://input"),$post_vars);
-    $db->update($post_vars['id'], $post_vars);
+    $input_data = json_decode(file_get_contents("php://input"), true);
+    $db->update($input_data['id'], $input_data);
     if ($db->affected_count > 0) {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
         print(json_encode(['error' => 'could not update data',
-                           'mysqli_error' => $db->error]));
+                           'driver_error' => $db->error]));
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (!array_key_exists('id', $_GET)) {
@@ -52,7 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (count($result) > 0) {
             print(json_encode($result));
         } else {
-            print(json_encode(['error' => 'no data returned']));
+            // print(json_encode(['error' => 'no data returned']));
+            print(json_encode([]));
         }
     }else{
         $project = $db->select(['id' => $_GET['id']])->fetch_assoc();
@@ -70,6 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         print(json_encode(['error' => 'SUCCESS']));
     }else{
         print(json_encode(['error' => 'could not delete data',
-                           'mysqli_error' => $db->error]));
+                           'driver_error' => $db->error]));
     }
 }
