@@ -5,17 +5,37 @@
 
 		<ul class="list-group" ng-repeat="project in projects | filter: search ">
 			<li class="list-group-item">
-				<a href="#/" ng-show="!editMode" ng-click="openModal(project);" ><img ng-src="{{project.mainImage}}"/> {{project.projectName}}, {{project.totalArea}}m<sup>2</sup>, {{project.completionYear}}r., {{project.location}}</a>
+				<a href="#/" ng-show="!editMode" ng-click="openModal(project);" ><img style="width:64px; height: 64px;" ng-src="{{project.mainImage}}"/> {{project.projectName}}, {{project.totalArea}}m<sup>2</sup>, {{project.completionYear}}r., {{project.location}}</a>
 
 				<span ng-show="editMode">
-					<input ng-model="project.projectName" placeholder="{{project.projectName}}">
-					<input ng-model="project.totalArea" placeholder="{{project.totalArea}}">
+					<div class="form-group">
+					<label>Project name</label>
+					<input class="form-control" ng-model="project.projectName" placeholder="{{project.projectName}}">					
+					<label>Completion year</label>
+					<input class="form-control" ng-model="project.completionYear" placeholder="{{project.completionYear}}">					
+					<label>Location</label>
+					<input class="form-control" ng-model="project.location" placeholder="{{project.location}}">					
+					<label>Project type</label>
+					<input class="form-control" ng-model="project.projectType" placeholder="{{project.projectType}}">					
+					<label>Contractor</label>
+					<input class="form-control" ng-model="project.contractor" placeholder="{{project.contractor}}">					
+					<label>Architect</label>
+					<input class="form-control" ng-model="project.architect" placeholder="{{project.architect}}">					
+					<label>Building type</label>
+					<input class="form-control" ng-model="project.buildingType" placeholder="{{project.buildingType}}">					
+					<label>Building style</label>
+					<input class="form-control" ng-model="project.buildingStyle" placeholder="{{project.buildingStyle}}">
+					<label>Total area</label>
+					<input class="form-control" ng-model="project.totalArea" placeholder="{{project.totalArea}}">
+					<label>Price</label>
+					<input class="form-control" ng-model="project.price" placeholder="{{project.price}}">
+
 					<button ng-click="editMode = false; save(project)">Save</button>
 					<button ng-click="editMode = false">Abort</button>
+					</div>
 				</span>
-				<span ng-show="!editMode" ng-click="editMode = true" class="glyphicon glyphicon-pencil edit-icon"></span>
+				<span ng-show="!editMode" ng-click="editMode = true" class="glyphicon glyphicon-pencil edit-icon"> </span>
 				<span ng-show="!editMode" ng-click="delete(project)" class="glyphicon glyphicon-trash edit-icon"></span>
-
 			</li>
 		</ul>
 	</div>

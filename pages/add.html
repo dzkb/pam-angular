@@ -1,85 +1,39 @@
-<div class="jumbotron text-center">
+<div class="jumbotron">
 	<h1>Add project</h1>
 
 	<form>
 		<div class="form-group">
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.architect" placeholder="architect" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.buildingStyle" placeholder="buildingStyle">
-				</div>
-			</div>
 
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.buildingType" placeholder="buildingType">
-				</div>
-			</div>
+			<label>Project name</label>
+			<input class="form-control" ng-model="data.projectName" >					
+			<label>Completion year</label>
+			<input class="form-control" ng-model="data.completionYear" >					
+			<label>Location</label>
+			<input class="form-control" ng-model="data.location" >					
+			<label>Project type</label>
+			<input class="form-control" ng-model="data.projectType">					
+			<label>Contractor</label>
+			<input class="form-control" ng-model="data.contractor" >					
+			<label>Architect</label>
+			<input class="form-control" ng-model="data.architect" >					
+			<label>Building type</label>
+			<input class="form-control" ng-model="data.buildingType">					
+			<label>Building style</label>
+			<input class="form-control" ng-model="data.buildingStyle" >
+			<label>Total area</label>
+			<input class="form-control" ng-model="data.totalArea" >
+			<label>Price</label>
+			<input class="form-control" ng-model="data.price" >
+			<label>Thumbnail</label>
+			<input class="form-control" ng-model="data.mainImage" >
 
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.completionYear" placeholder="completionYear">
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.contractor" placeholder="contractor">
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.totalArea" placeholder="totalArea">
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.location" placeholder="location">
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.mainImage" placeholder="mainImage">
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.price" placeholder="price">
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.projectName" placeholder="projectName">
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12">
-					<input class="form-control" ng-model="data.projectType" placeholder="projectType">
-				</div>
-			</div>
+			<label>Keywords</label>
 			<div ng-repeat="key in keywords track by $index">
-				<div class="row">
-					<div class="col-xs-12">
-						<input class="form-control" once="addKeyword()" placeholder= "{{key}}" ng-model="keywords[$index]"/>
-					</div>
-				</div>
+				<input class="form-control" once="addKeyword()" placeholder= "{{key}}" ng-model="keywords[$index]"/>
 			</div>
+			<label>Images (ULRs)</label>
 			<div ng-repeat="image in images track by $index">
-				<div class="row">
-					<div class="col-xs-12">
-						<input class="form-control" once="addImage()" placeholder= "{{image}}" ng-model="images[$index]"/>
-					</div>
-				</div>
+				<input class="form-control" once="addImage()" placeholder= "{{image}}" ng-model="images[$index]"/>
 			</div>
 		</div>
 

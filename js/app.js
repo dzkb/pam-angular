@@ -7,20 +7,18 @@ var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 're
               controller  : 'MainCtrl'
             })
 
-            // route for the about page
             .when('/add', {
               templateUrl : './pages/add.html',
               controller  : 'addController'
             })
 
-            // route for the contact page
-            .when('/contact', {
-              templateUrl : './pages/contact.html',
-              controller  : 'contactController'
-            }
-
-            
-            );
+            // // route for the contact page
+            // .when('/contact', {
+            //   templateUrl : './pages/contact.html',
+            //   controller  : 'contactController'
+            // }           
+            // )
+            ;
            $locationProvider.html5Mode(true);
           });
 
@@ -185,13 +183,13 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
     rest.post(result);
     toastr["success"]("Project added!");
   }
-  $scope.keywords = ["add keyword"];
+  $scope.keywords = [""];
   $scope.addKeyword = function() {
-    $scope.keywords.push("add keyword");
+    $scope.keywords.push("");
   }
-  $scope.images = ["add image"];
+  $scope.images = [""];
   $scope.addImage = function() {
-    $scope.images.push("add image");
+    $scope.images.push("");
   }
 });
 
