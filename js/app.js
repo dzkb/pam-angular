@@ -179,7 +179,8 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
       "mainImage": data.mainImage,
       "images": $scope.images.slice(0, $scope.images.length-1)
     }
-    var rest =Restangular.all('pam-angular/db/projects');
+    // var rest =Restangular.all('pam-angular/db/projects');
+    var rest =Restangular.allUrl('projects', 'db');
     rest.post(result);
     toastr["success"]("Project added!");
   }

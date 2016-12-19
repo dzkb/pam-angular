@@ -31,7 +31,7 @@
 			<div ng-repeat="key in keywords track by $index">
 				<input class="form-control" once="addKeyword()" placeholder= "{{key}}" ng-model="keywords[$index]"/>
 			</div>
-			<label>Images (ULRs)</label>
+			<label>Images (URLs)</label>
 			<div ng-repeat="image in images track by $index">
 				<input class="form-control" once="addImage()" placeholder= "{{image}}" ng-model="images[$index]"/>
 			</div>
