@@ -217,6 +217,7 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
             $scope.dropClass = ok ? 'over' : 'not-available'
         })
     }, false)
+
     dropbox.addEventListener("drop", function(evt) {
         console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)))
         evt.stopPropagation()
@@ -228,9 +229,15 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
         var files = evt.dataTransfer.files
         if (files.length > 0) {
             $scope.$apply(function(){
+                $scope.filesURLs = [];
                 $scope.files = []
                 for (var i = 0; i < files.length; i++) {
-                    $scope.files.push(files[i])
+                    $scope.files.push(files[i]);
+                    reader = new FileReader();
+                    reader.onload = function(event) {
+                        $scope.filesURLs.push(event.target.result);
+                    };
+                    reader.readAsDataURL(files[i]);
                 }
             })
         }
@@ -259,7 +266,7 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
         xhr.addEventListener("load", uploadComplete, false)
         xhr.addEventListener("error", uploadFailed, false)
         xhr.addEventListener("abort", uploadCanceled, false)
-        xhr.open("POST", "/fileupload")
+        xhr.open("POST", "db/fileupload")
         $scope.progressVisible = true
         xhr.send(fd)
     }
