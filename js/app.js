@@ -230,7 +230,7 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
         if (files.length > 0) {
             $scope.$apply(function(){
                 $scope.filesURLs = [];
-                $scope.files = []
+                $scope.files = [];
                 for (var i = 0; i < files.length; i++) {
                     $scope.files.push(files[i]);
                     reader = new FileReader();
@@ -259,7 +259,7 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
     $scope.uploadFile = function() {
         var fd = new FormData()
         for (var i in $scope.files) {
-            fd.append("uploadedFile", $scope.files[i])
+            fd.append("uploadedFile[]", $scope.files[i])
         }
         var xhr = new XMLHttpRequest()
         xhr.upload.addEventListener("progress", uploadProgress, false)
