@@ -30,6 +30,7 @@ define('type_schema', array(
 define('HTTP_CREATED', 201);
 define('HTTP_NO_CONTENT', 204);
 define('HTTP_BAD_REQUEST', 400);
+define('HTTP_CONFLICT', 409);
 
 // file upload target
 define('upload_target', 'uploaded_img/');
