@@ -5,7 +5,7 @@
 
 		<ul class="list-group" ng-repeat="project in projects | filter: search ">
 			<li class="list-group-item">
-				<a href="#/" ng-show="!editMode" ng-click="openModal(project);" ><img style="width:64px; height: 64px;" ng-src="{{project.mainImage}}"/> {{project.projectName}}, {{project.totalArea}}m<sup>2</sup>, {{project.completionYear}}r., {{project.location}} </a>
+				<a href="#/" ng-show="!editMode" ng-click="openModal(project);" ><img style="width:64px; height: 64px;" ng-src="./uploaded_img/{{project.mainImage}}"/> {{project.projectName}}, {{project.totalArea}}m<sup>2</sup>, {{project.completionYear}}r., {{project.location}} </a>
 
 				<span ng-show="confirmation">
 					<div class="btn-group pull-right" role="group" aria-label="...">

@@ -24,9 +24,6 @@
 			<input class="form-control" ng-model="data.totalArea" >
 			<label>Price</label>
 			<input class="form-control" ng-model="data.price" >
-			<label>Thumbnail</label>
-			<input class="form-control" ng-model="data.mainImage" >
-
 			<label>Keywords</label>
 			<div ng-repeat="key in keywords track by $index">
 				<input class="form-control" once="addKeyword()" placeholder= "{{key}}" ng-model="keywords[$index]"/>
@@ -42,7 +39,7 @@
 		        <span ng-switch-default>{{file.size / 1024 | number:2}} kB</span>
 		        </span>)
 		      </div>
-		      <input type="button" ng-click="uploadFile()" value="Upload" />
+		     
 		      <div ng-show="progressVisible">
 		        <div class="percent">{{progress}}%</div>
 		        <div class="progress-bar">
@@ -51,7 +48,7 @@
 		      </div>
 		    </div>
 		</div>
-
-		<input ng-click=" save(data)" type="submit">
+ 		<input type="sumbit" ng-click="uploadFile()" value="Upload" />
+		<!-- <input ng-click=" save(data)" type="submit"> -->
 	</form>
 </div>

@@ -12,14 +12,8 @@ var ngApp = angular.module('ngApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 're
               controller  : 'addController'
             })
 
-            // // route for the contact page
-            // .when('/contact', {
-            //   templateUrl : './pages/contact.html',
-            //   controller  : 'contactController'
-            // }           
-            // )
             ;
-           $locationProvider.html5Mode(true);
+            $locationProvider.html5Mode(true);
           });
 
 ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
@@ -29,14 +23,14 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
 
   var refreshList = function(){
     rest.getList('projects').then(function(project) {
-    $scope.projects = project.plain();
-    for (var i = 0; i < $scope.projects.length; i++) {
-      $scope.projects[i].images = JSON.parse($scope.projects[i].images);
+      $scope.projects = project.plain();
+      for (var i = 0; i < $scope.projects.length; i++) {
+        $scope.projects[i].images = JSON.parse($scope.projects[i].images);
       // ^ get images
     }
-    }, function (result) {
-      console.log(result);
-    });
+  }, function (result) {
+    console.log(result);
+  });
   }
   refreshList();
 
@@ -131,7 +125,7 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
         refreshList();
       });
       
-  });
+    });
   }
 
   $scope.save = function (project) {
@@ -156,31 +150,30 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
       toPut.images = project.images;
       toPut.put();
       toastr["success"]("Project saved!");
-  });
+    });
   }
 
 }); 
 
 ngApp.controller('addController', function($scope, Restangular, $route) {
-  $scope.save = function(data) {
-
-    var result = {
-      "projectName": data.projectName,
-      "keywords": $scope.keywords.slice(0, $scope.keywords.length-1).join(" "),
-      "completionYear": data.completionYear,
-      "location": data.location,
-      "projectType": data.projectType,
-      "contractor": data.contractor,
-      "architect": data.architect,
-      "buildingType": data.buildingType,
-      "buildingStyle": data.buildingStyle,
-      "totalArea": data.totalArea,
-      "price": data.price,
-      "mainImage": data.mainImage,
-      "images": $scope.images.slice(0, $scope.images.length-1)
-    }
-    // var rest =Restangular.all('pam-angular/db/projects');
-    var rest =Restangular.all('my-site/db/projects');
+ function save(data) {
+  var result = {
+    "projectName": data.projectName,
+    "keywords": $scope.keywords.slice(0, $scope.keywords.length-1).join(" "),
+    "completionYear": data.completionYear,
+    "location": data.location,
+    "projectType": data.projectType,
+    "contractor": data.contractor,
+    "architect": data.architect,
+    "buildingType": data.buildingType,
+    "buildingStyle": data.buildingStyle,
+    "totalArea": data.totalArea,
+    "price": data.price,
+    "mainImage": data.mainImage,
+    "images": data.images
+  }
+    var rest =Restangular.all('pam-angular/db/projects');
+    // var rest =Restangular.all('my-site/db/projects');
     rest.post(result);
     toastr["success"]("Project added!");
   }
@@ -193,110 +186,117 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
     $scope.images.push("");
   }
 //upload images
-  var dropbox = document.getElementById("dropbox")
-    $scope.dropText = 'Drop files here...'
+var dropbox = document.getElementById("dropbox")
+$scope.dropText = 'Drop files here...'
 
     // init event handlers
     function dragEnterLeave(evt) {
-        evt.stopPropagation()
-        evt.preventDefault()
-        $scope.$apply(function(){
-            $scope.dropText = 'Drop files here...'
-            $scope.dropClass = ''
-        })
+      evt.stopPropagation()
+      evt.preventDefault()
+      $scope.$apply(function(){
+        $scope.dropText = 'Drop files here...'
+        $scope.dropClass = ''
+      })
     }
     dropbox.addEventListener("dragenter", dragEnterLeave, false)
     dropbox.addEventListener("dragleave", dragEnterLeave, false)
     dropbox.addEventListener("dragover", function(evt) {
-        evt.stopPropagation()
-        evt.preventDefault()
-        var clazz = 'not-available'
-        var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0
-        $scope.$apply(function(){
-            $scope.dropText = ok ? 'Drop files here...' : 'Only files are allowed!'
-            $scope.dropClass = ok ? 'over' : 'not-available'
-        })
+      evt.stopPropagation()
+      evt.preventDefault()
+      var clazz = 'not-available'
+      var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0
+      $scope.$apply(function(){
+        $scope.dropText = ok ? 'Drop files here...' : 'Only files are allowed!'
+        $scope.dropClass = ok ? 'over' : 'not-available'
+      })
     }, false)
 
     dropbox.addEventListener("drop", function(evt) {
-        console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)))
-        evt.stopPropagation()
-        evt.preventDefault()
+      console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)))
+      evt.stopPropagation()
+      evt.preventDefault()
+      $scope.$apply(function(){
+        $scope.dropText = 'Drop files here...'
+        $scope.dropClass = ''
+      })
+      var files = evt.dataTransfer.files
+      if (files.length > 0) {
         $scope.$apply(function(){
-            $scope.dropText = 'Drop files here...'
-            $scope.dropClass = ''
+          $scope.filesURLs = [];
+          $scope.files = [];
+          for (var i = 0; i < files.length; i++) {
+            $scope.files.push(files[i]);
+            reader = new FileReader();
+            reader.onload = function(event) {
+              $scope.filesURLs.push(event.target.result);
+            };
+            reader.readAsDataURL(files[i]);
+          }
         })
-        var files = evt.dataTransfer.files
-        if (files.length > 0) {
-            $scope.$apply(function(){
-                $scope.filesURLs = [];
-                $scope.files = [];
-                for (var i = 0; i < files.length; i++) {
-                    $scope.files.push(files[i]);
-                    reader = new FileReader();
-                    reader.onload = function(event) {
-                        $scope.filesURLs.push(event.target.result);
-                    };
-                    reader.readAsDataURL(files[i]);
-                }
-            })
-        }
+      }
     }, false)
     //============== DRAG & DROP =============
 
     $scope.setFiles = function(element) {
-    $scope.$apply(function(scope) {
-      console.log('files:', element.files);
+      $scope.$apply(function(scope) {
+        console.log('files:', element.files);
       // Turn the FileList object into an Array
-        $scope.files = []
-        for (var i = 0; i < element.files.length; i++) {
-          $scope.files.push(element.files[i])
-        }
+      $scope.files = []
+      for (var i = 0; i < element.files.length; i++) {
+        $scope.files.push(element.files[i])
+      }
       $scope.progressVisible = false
-      });
+    });
     };
 
     $scope.uploadFile = function() {
-        var fd = new FormData()
-        for (var i in $scope.files) {
-            fd.append("uploadedFile[]", $scope.files[i])
-        }
-        var xhr = new XMLHttpRequest()
-        xhr.upload.addEventListener("progress", uploadProgress, false)
-        xhr.addEventListener("load", uploadComplete, false)
-        xhr.addEventListener("error", uploadFailed, false)
-        xhr.addEventListener("abort", uploadCanceled, false)
-        xhr.open("POST", "db/fileupload")
-        $scope.progressVisible = true
-        xhr.send(fd)
+      var fd = new FormData()
+      for (var i in $scope.files) {
+        fd.append("uploadedFile[]", $scope.files[i])
+      }
+      var xhr = new XMLHttpRequest()
+      xhr.upload.addEventListener("progress", uploadProgress, false)
+      xhr.addEventListener("load", uploadComplete, false)
+      xhr.addEventListener("error", uploadFailed, false)
+      xhr.addEventListener("abort", uploadCanceled, false)
+      xhr.open("POST", "db/fileupload")
+      $scope.progressVisible = true
+      xhr.send(fd)
     }
 
     function uploadProgress(evt) {
-        $scope.$apply(function(){
-            if (evt.lengthComputable) {
-                $scope.progress = Math.round(evt.loaded * 100 / evt.total)
-            } else {
-                $scope.progress = 'unable to compute'
-            }
-        })
+      $scope.$apply(function(){
+        if (evt.lengthComputable) {
+          $scope.progress = Math.round(evt.loaded * 100 / evt.total)
+        } else {
+          $scope.progress = 'unable to compute'
+        }
+      })
     }
 
     function uploadComplete(evt) {
-        /* This event is raised when the server send back a response */
-        console.log(evt.target.responseText)
+      /* This event is raised when the server send back a response */
+      console.log('dududududupa', JSON.parse(evt.target.response).created_files);
+      var data = $scope.data;
+      data.mainImage = JSON.parse(evt.target.response).created_files[0];
+      data.images = JSON.parse(evt.target.response).created_files;
+      console.log('data', data.images);
+      console.log('data', typeof data.images[0]);
+      save(data);
     }
 
     function uploadFailed(evt) {
-        alert("There was an error attempting to upload the file.")
+      alert("There was an error attempting to upload the file.")
     }
 
     function uploadCanceled(evt) {
-        $scope.$apply(function(){
-            $scope.progressVisible = false
-        })
-        alert("The upload has been canceled by the user or the browser dropped the connection.")
+      $scope.$apply(function(){
+        $scope.progressVisible = false
+      })
+      alert("The upload has been canceled by the user or the browser dropped the connection.")
     }
-});
+
+  });
 
 ngApp.directive('once', function() {
   return {
