@@ -83,3 +83,7 @@ a:hover {
 .dropbox.over {
   background-color: #bfb;
 }
+
+.images-list {
+  font-size: 16px;
+}

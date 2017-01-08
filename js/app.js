@@ -172,7 +172,7 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
     "mainImage": data.mainImage,
     "images": data.images
   }
-    var rest =Restangular.all('pam-angular/db/projects');
+  var rest =Restangular.all('pam-angular/db/projects');
     // var rest =Restangular.all('my-site/db/projects');
     rest.post(result);
     toastr["success"]("Project added!");
@@ -184,6 +184,21 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
   $scope.images = [""];
   $scope.addImage = function() {
     $scope.images.push("");
+  }
+
+  //variable for selected image
+  $scope.mainImage = 0;
+
+  $scope.selectAsMain = function (index) {
+    $scope.mainImage = index;
+  }
+
+  //remove image 
+  $scope.removeImage = function (index) {
+    $scope.files.splice(index, 1);
+    if($scope.mainImage === index) {
+      $scope.mainImage = index - 1;
+    }
   }
 //upload images
 var dropbox = document.getElementById("dropbox")
@@ -281,7 +296,7 @@ $scope.dropText = 'Drop files here...'
       data.mainImage = JSON.parse(evt.target.response).created_files[0];
       data.images = JSON.parse(evt.target.response).created_files;
       console.log('data', data.images);
-      console.log('data', typeof data.images[0]);
+      console.log('data', typeof data.images[$scope.mainImage]);
       save(data);
     }
 

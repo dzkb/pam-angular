@@ -30,25 +30,30 @@
 			</div>
 			<label>Images (URLs)</label>
 			<input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().setFiles(this)" />
-			  <div id="dropbox" class="dropbox" ng-class="dropClass"><span>{{dropText}}</span></div>
-		    <div ng-show="files.length">
-		      <div ng-repeat="file in files.slice(0)">
-		        <span>{{file.webkitRelativePath || file.name}}</span> (
-		        <span ng-switch="file.size > 1024*1024">
-		                <span ng-switch-when="true">{{file.size / 1024 / 1024 | number:2}} MB</span>
-		        <span ng-switch-default>{{file.size / 1024 | number:2}} kB</span>
-		        </span>)
-		      </div>
-		     
-		      <div ng-show="progressVisible">
-		        <div class="percent">{{progress}}%</div>
-		        <div class="progress-bar">
-		          <div class="uploaded" ng-style="{'width': progress+'%'}"></div>
-		        </div>
-		      </div>
-		    </div>
+			<div id="dropbox" class="dropbox" ng-class="dropClass"><span>{{dropText}}</span></div>
+			<div ng-show="files.length">
+				<div class="images-list" ng-repeat="file in files.slice(0)">
+					<span ng-style="{opacity : (($index === mainImage) && '1') || '0'}" class="glyphicon glyphicon-home"></span>
+					<span 
+					 ng-style="($index === mainImage) && {'font-weight':'bold'} || {'font-weight':'normal'}" ng-click="selectAsMain($index)"
+					ng-style="{font-size : (($index === mainImage) && '12px') || '20px'}">
+					{{file.webkitRelativePath || file.name}}
+				</span> (
+				<span ng-switch="file.size > 1024*1024">
+					<span ng-switch-when="true">{{file.size / 1024 / 1024 | number:2}} MB</span>
+					<span ng-switch-default>{{file.size / 1024 | number:2}} kB</span>
+				</span>)
+				<span ng-click="removeImage($index)" class="glyphicon glyphicon-remove"></span> 
+			</div>
+
+			<div ng-show="progressVisible">
+				<div class="percent">{{progress}}%</div>
+				<div class="progress-bar">
+					<div class="uploaded" ng-style="{'width': progress+'%'}"></div>
+				</div>
+			</div>
 		</div>
- 		<input type="sumbit" ng-click="uploadFile()" value="Upload" />
-		<!-- <input ng-click=" save(data)" type="submit"> -->
-	</form>
+	</div>
+	<input type="submit" ng-click="uploadFile()" value="Upload" >
+</form>
 </div>
