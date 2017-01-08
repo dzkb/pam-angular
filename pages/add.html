@@ -33,13 +33,13 @@
 			<div id="dropbox" class="dropbox" ng-class="dropClass"><span>{{dropText}}</span></div>
 			<div ng-show="files.length">
 				<div class="images-list" ng-repeat="file in files.slice(0)">
-					<span ng-style="{opacity : (($index === mainImage) && '1') || '0'}" class="glyphicon glyphicon-home"></span>
+					<i ng-style="{opacity : (($index === mainImage) && '1') || '0'}" class="glyphicon glyphicon-home"></i>
 					<span 
 					 ng-style="($index === mainImage) && {'font-weight':'bold'} || {'font-weight':'normal'}" ng-click="selectAsMain($index)"
 					ng-style="{font-size : (($index === mainImage) && '12px') || '20px'}">
 					{{file.webkitRelativePath || file.name}}
 				</span> (
-				<span ng-switch="file.size > 1024*1024">
+				<span class="size" ng-switch="file.size > 1024*1024">
 					<span ng-switch-when="true">{{file.size / 1024 / 1024 | number:2}} MB</span>
 					<span ng-switch-default>{{file.size / 1024 | number:2}} kB</span>
 				</span>)

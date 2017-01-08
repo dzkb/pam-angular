@@ -87,3 +87,9 @@ a:hover {
 .images-list {
   font-size: 16px;
 }
+.images-list span {
+    cursor: pointer;
+}
+.size span {
+  cursor: default;
+}
