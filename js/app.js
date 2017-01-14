@@ -20,7 +20,6 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
   'use strict';
 
   var rest = Restangular.oneUrl('projects', 'db');
-
   var refreshList = function(){
     rest.getList('projects').then(function(project) {
       $scope.projects = project.plain();
@@ -128,9 +127,10 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
     });
   }
 
-  $scope.save = function (project) {
+  function save(project, data) {
     rest.getList('projects').then(function(elem) {
       var toPut = null;
+      console.log(project)
       for (var i = 0; i < elem.length && toPut == null; i++) {
         if (elem[i].id == project.id) {
           toPut = elem[i];
@@ -147,13 +147,150 @@ ngApp.controller('MainCtrl', function($scope, $uibModal, Restangular, $route) {
       toPut.buildingStyle = project.buildingStyle;
       toPut.totalArea = project.totalArea;
       toPut.price = project.price;
-      toPut.images = project.images;
+      toPut.images = data.images;
+      toPut.mainImage = data.mainImage;
       toPut.put();
       toastr["success"]("Project saved!");
     });
   }
+// copy paste $scope.images = [""];
+  //variable for selected image
+  $scope.mainImage = 0;
 
-}); 
+  $scope.selectAsMain = function (index) {
+    $scope.mainImage = index;
+  }
+
+  //remove image 
+  $scope.removeImage = function (index) {
+    $scope.files.splice(index, 1);
+    if($scope.mainImage === index) {
+      $scope.mainImage = index - 1;
+    }
+  }
+//upload images
+$scope.dropText = 'Drop files here...'
+$scope.setDropListeners = function() {
+    // init event handlers
+    var dropbox = document.getElementById("dropbox2")
+    function dragEnterLeave(evt) {
+      evt.stopPropagation()
+      evt.preventDefault()
+      $scope.$apply(function(){
+        $scope.dropText = 'Drop files here...'
+        $scope.dropClass = ''
+      })
+    }
+    dropbox.addEventListener("dragenter", dragEnterLeave, false)
+    dropbox.addEventListener("dragleave", dragEnterLeave, false)
+    dropbox.addEventListener("dragover", function(evt) {
+      evt.stopPropagation()
+      evt.preventDefault()
+      var clazz = 'not-available'
+      var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0
+      $scope.$apply(function(){
+        $scope.dropText = ok ? 'Drop files here...' : 'Only files are allowed!'
+        $scope.dropClass = ok ? 'over' : 'not-available'
+      })
+    }, false)
+
+    dropbox.addEventListener("drop", function(evt) {
+      console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)))
+      evt.stopPropagation()
+      evt.preventDefault()
+      $scope.$apply(function(){
+        $scope.dropText = 'Drop files here...'
+        $scope.dropClass = ''
+      })
+      var files = evt.dataTransfer.files
+      if (files.length > 0) {
+        $scope.$apply(function(){
+          $scope.filesURLs = [];
+          $scope.files = [];
+          for (var i = 0; i < files.length; i++) {
+            $scope.files.push(files[i]);
+            reader = new FileReader();
+            reader.onload = function(event) {
+              $scope.filesURLs.push(event.target.result);
+            };
+            reader.readAsDataURL(files[i]);
+          }
+        })
+      }
+    }, false)
+  }
+    //============== DRAG & DROP =============
+
+    $scope.setFiles = function(element) {
+      $scope.$apply(function(scope) {
+        console.log('files:', element.files);
+      // Turn the FileList object into an Array
+      $scope.files = []
+      for (var i = 0; i < element.files.length; i++) {
+        $scope.files.push(element.files[i])
+      }
+      $scope.progressVisible = false
+    });
+    };
+var projectToChange = null;
+    $scope.uploadFile = function(data) {
+      var fd = new FormData()
+      var errorOccured = false;
+      projectToChange = data;
+      for (var i in $scope.files) {
+        if (allowedExtensions.indexOf($scope.files[i].name.split('.').pop().toLowerCase()) == -1) {
+          toastr["warning"]($scope.files[i].name + " does not look like a picture!");
+          errorOccured = true;
+        }
+        fd.append("uploadedFile[]", $scope.files[i]);
+      }
+      if (!errorOccured) {
+        var xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener("progress", uploadProgress, false);
+        xhr.addEventListener("load", uploadComplete, false);
+        xhr.addEventListener("error", uploadFailed, false);
+        xhr.addEventListener("abort", uploadCanceled, false);
+        xhr.open("POST", "db/fileupload");
+        $scope.progressVisible = true;
+        xhr.send(fd);
+      }
+
+    }
+
+    function uploadProgress(evt) {
+      $scope.$apply(function(){
+        if (evt.lengthComputable) {
+          $scope.progress = Math.round(evt.loaded * 100 / evt.total)
+        } else {
+          $scope.progress = 'unable to compute'
+        }
+      })
+    }
+
+    function uploadComplete(evt) {
+      /* This event is raised when the server send back a response */
+      var data = 
+      {
+        mainImage: undefined,
+        images: []
+      };
+      data.mainImage = JSON.parse(evt.target.response).created_files[0];
+      data.images = JSON.parse(evt.target.response).created_files;
+      save(projectToChange, data);
+    }
+
+    function uploadFailed(evt) {
+      alert("There was an error attempting to upload the file.")
+    }
+
+    function uploadCanceled(evt) {
+      $scope.$apply(function(){
+        $scope.progressVisible = false
+      })
+      alert("The upload has been canceled by the user or the browser dropped the connection.")
+    }
+
+  }); 
 
 ngApp.controller('addController', function($scope, Restangular, $route) {
  function save(data) {
@@ -182,10 +319,6 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
     $scope.keywords.push("");
   }
   $scope.images = [""];
-  $scope.addImage = function() {
-    $scope.images.push("");
-  }
-
   //variable for selected image
   $scope.mainImage = 0;
 
@@ -203,6 +336,7 @@ ngApp.controller('addController', function($scope, Restangular, $route) {
 //upload images
 var dropbox = document.getElementById("dropbox")
 $scope.dropText = 'Drop files here...'
+console.log(dropbox);
 
     // init event handlers
     function dragEnterLeave(evt) {
@@ -359,7 +493,7 @@ toastr.options = {
 };
 
 allowedExtensions = [
-  "jpg",
-  "jpeg",
-  "png"
+"jpg",
+"jpeg",
+"png"
 ];
