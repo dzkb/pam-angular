@@ -266,17 +266,25 @@ $scope.dropText = 'Drop files here...'
 
     $scope.uploadFile = function() {
       var fd = new FormData()
+      var errorOccured = false;
       for (var i in $scope.files) {
-        fd.append("uploadedFile[]", $scope.files[i])
+        if (allowedExtensions.indexOf($scope.files[i].name.split('.').pop().toLowerCase()) == -1) {
+          toastr["warning"]($scope.files[i].name + " does not look like a picture!");
+          errorOccured = true;
+        }
+        fd.append("uploadedFile[]", $scope.files[i]);
       }
-      var xhr = new XMLHttpRequest()
-      xhr.upload.addEventListener("progress", uploadProgress, false)
-      xhr.addEventListener("load", uploadComplete, false)
-      xhr.addEventListener("error", uploadFailed, false)
-      xhr.addEventListener("abort", uploadCanceled, false)
-      xhr.open("POST", "db/fileupload")
-      $scope.progressVisible = true
-      xhr.send(fd)
+      if (!errorOccured) {
+        var xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener("progress", uploadProgress, false);
+        xhr.addEventListener("load", uploadComplete, false);
+        xhr.addEventListener("error", uploadFailed, false);
+        xhr.addEventListener("abort", uploadCanceled, false);
+        xhr.open("POST", "db/fileupload");
+        $scope.progressVisible = true;
+        xhr.send(fd);
+      }
+
     }
 
     function uploadProgress(evt) {
@@ -348,4 +356,10 @@ toastr.options = {
   "hideEasing": "linear",
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
-}
+};
+
+allowedExtensions = [
+  "jpg",
+  "jpeg",
+  "png"
+];

@@ -37,6 +37,7 @@
 						<label>Price</label>
 						<input class="form-control" ng-model="project.price" placeholder="{{project.price}}">
 					</div>	
+					<input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().setFiles(this)" />
 					<span>
 						<div class="btn-group" role="group" aria-label="...">
 							<button class="btn btn-default" ng-click="editMode = false; save(project)"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
